@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.http.GET;
 import retrofit.http.Path;
@@ -20,27 +21,9 @@ public class DarkSkiesClient
 	public static class WeatherInfo{
 
 		String timezone;
+        //Objects in the JSON Response
 		Currently currently;
 		Hourly hourly;
-	}
-
-	public static class Currently {
-		String summary;
-		double nearestStormDistance;
-		double nearestStormBearing;
-		double precipIntensity;
-		double precipProbability;
-		double temperature;
-		double dewPoint;
-		double humidity;
-		double windSpeed;
-		double windBearing;
-		double visibility;
-		double cloudCover;
-		double pressure;
-		double ozone;
-
-
 	}
 
 	public static class Hourly {
@@ -57,11 +40,13 @@ public class DarkSkiesClient
 	public interface Forecast{
 		@GET("/{latlong}")
 		WeatherInfo  weatherLocation(
-				@Path( "latlong" ) String latlong );
+                @Path( "latlong" ) String latlong , Callback<WeatherInfo> cb ) ;
 	}
 
 
-	public static void main(String... args) {
+	public void ConnectAndGetData() {
+
+
 
 		RestAdapter restAdapter = new RestAdapter.Builder().setServer( Dark_URL ).build();
 
