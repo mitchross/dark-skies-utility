@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.http.GET;
 import retrofit.http.Path;
@@ -40,11 +39,11 @@ public class DarkSkiesClient
 	public interface Forecast{
 		@GET("/{latlong}")
 		WeatherInfo  weatherLocation(
-                @Path( "latlong" ) String latlong , Callback<WeatherInfo> cb ) ;
+            @Path( "latlong" ) String latlong ) ;
 	}
 
 
-	public void ConnectAndGetData() {
+	public static void main(String [] args) {
 
 
 
@@ -52,7 +51,8 @@ public class DarkSkiesClient
 
 		Forecast forecast = restAdapter.create( Forecast.class );
 
-		WeatherInfo w = forecast.weatherLocation( "42,-85" );
+
+		WeatherInfo w = forecast.weatherLocation( "42,-85");
 
 		System.out.println( w.timezone + " break " + w.currently.summary );
 		System.out.println( w.timezone + " break " + w.currently.cloudCover );
