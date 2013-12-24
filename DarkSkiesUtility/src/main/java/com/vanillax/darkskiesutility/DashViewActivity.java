@@ -9,7 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit.Callback;
@@ -32,6 +34,10 @@ public class DashViewActivity extends ActionBarActivity {
 		cList = new ArrayList<String>(  );
 
 		connectService();
+        connectForecastIO();
+
+
+
 		testText = (TextView) findViewById( R.id.testTextView );
 		listView = (ListView)findViewById( R.id.listView );
 
@@ -43,6 +49,51 @@ public class DashViewActivity extends ActionBarActivity {
 
 
     }
+
+    public void connectForecastIO()
+    {
+        //Create the simple Rest adapter which points to the Forecast.io endpoints
+        RestAdapter restAdapter = new RestAdapter.Builder().setServer(DarkSkiesClient.Dark_URL).build();
+
+        //Create a instance of our forecastIO api interface
+        Forecast forecast = restAdapter.create(Forecast.class);
+
+
+
+        Callback cb = new Callback< WeatherInfo > (){
+            @Override
+            public void success(WeatherInfo weatherInfo, Response response) {
+                System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.summary );
+                System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.cloudCover );
+
+
+                List<DataForHourly> hours = weatherInfo.hourly.data;
+                for(DataForHourly d : hours)
+                {
+
+                    long dv = Long.valueOf(d.time)*1000;// its need to be in milisecond
+                    Date df = new java.util.Date(dv);
+                    String vv = new SimpleDateFormat("MM dd, yyyy hh:mma").format(df);
+
+                    System.out.println("hour " + vv + " summary " + d.summary);
+                }
+
+                System.out.println(" size "  + weatherInfo.hourly.data.size());
+
+
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                Log.e("error", "error message");
+            }
+        };
+        forecast.weatherData("42,-85", cb);
+
+
+    }
+
+
 
 	public  void connectService()
 	{
