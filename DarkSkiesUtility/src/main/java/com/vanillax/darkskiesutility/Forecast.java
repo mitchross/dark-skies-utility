@@ -13,8 +13,4 @@ public interface Forecast{
             @Path( "latlong" ) String latlong ,
             Callback< WeatherInfo > callback ) ;
 
-
-
-    WeatherInfo  weatherLocation(
-            @Path( "latlong" ) String latlong ) ;
 }

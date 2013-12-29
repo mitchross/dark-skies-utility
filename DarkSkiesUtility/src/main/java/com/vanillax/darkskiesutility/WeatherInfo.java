@@ -9,6 +9,7 @@ public class WeatherInfo{
     //Objects in the JSON Response
     Currently currently;
     Hourly hourly;
+    DataForDaily daily;
 
 
 }

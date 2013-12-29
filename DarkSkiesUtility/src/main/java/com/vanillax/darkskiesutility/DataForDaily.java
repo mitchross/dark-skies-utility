@@ -5,17 +5,18 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by Mitch on 12/23/13.
+ * Created by Mitch on 12/24/13.
  */
-public class Hourly {
+public class DataForDaily {
     String summary;
-    //This "data' has to match JSON key
     @SerializedName("data")
-    List<DataForHourly> hourlyList;
+    List<Day> dailyDataList;
 
-    public class DataForHourly{
-        int time;
+public static class Day
+    {
+        String time;
         String summary;
+
     }
 
 }
