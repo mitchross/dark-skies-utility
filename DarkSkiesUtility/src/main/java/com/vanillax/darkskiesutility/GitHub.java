@@ -9,7 +9,7 @@ import retrofit.http.Path;
 /**
  * Created by mitchross on 12/16/13.
  */
-interface GitHub {
+public interface GitHub {
 
 	@GET("/repos/{owner}/{repo}/contributors")
 		//List<Contributor> contributors(

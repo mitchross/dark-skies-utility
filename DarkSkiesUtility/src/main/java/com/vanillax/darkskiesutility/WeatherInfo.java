@@ -5,11 +5,11 @@ package com.vanillax.darkskiesutility;
  */
 public class WeatherInfo{
 
-    String timezone;
+   public String timezone;
     //Objects in the JSON Response
-    Currently currently;
-    Hourly hourly;
-    DataForDaily daily;
+   public Currently currently;
+   public Hourly hourly;
+   public DataForDaily daily;
 
 
 }

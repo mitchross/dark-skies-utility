@@ -7,8 +7,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Contributor {
 	@SerializedName( "login" )
-	String myLogin;
-	int contributions;
+    public String myLogin;
+	public int contributions;
 
 	public String getMyLogin()
 	{

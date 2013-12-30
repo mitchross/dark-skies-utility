@@ -8,14 +8,14 @@ import java.util.List;
  * Created by Mitch on 12/24/13.
  */
 public class DataForDaily {
-    String summary;
+    public String summary;
     @SerializedName("data")
-    List<Day> dailyDataList;
+    public List<Day> dailyDataList;
 
 public static class Day
     {
-        String time;
-        String summary;
+       public String time;
+        public String summary;
 
     }
 

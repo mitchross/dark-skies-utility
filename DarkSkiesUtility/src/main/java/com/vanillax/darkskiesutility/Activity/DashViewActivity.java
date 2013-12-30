@@ -1,4 +1,4 @@
-package com.vanillax.darkskiesutility;
+package com.vanillax.darkskiesutility.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +9,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.vanillax.darkskiesutility.Contributor;
+import com.vanillax.darkskiesutility.DarkSkiesClient;
+import com.vanillax.darkskiesutility.DataForDaily;
+import com.vanillax.darkskiesutility.ExpandableListAdapter;
+import com.vanillax.darkskiesutility.Forecast;
+import com.vanillax.darkskiesutility.GitHub;
+import com.vanillax.darkskiesutility.GitHubClient;
+import com.vanillax.darkskiesutility.R;
+import com.vanillax.darkskiesutility.WeatherInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,18 +51,15 @@ public class DashViewActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView( R.layout.main);
 
         //Get the listview
         expandableListView = (ExpandableListView) findViewById(R.id.lvExp);
 
         //preparing list data
-        prepareListData();
+       // prepareListData();
 
-        listAdapter = new ExpandableListAdapter(this, listDataHeader , listDataChildMap);
 
-        //Setting list adapter
-        expandableListView.setAdapter(listAdapter);
 
 
 
@@ -100,6 +107,11 @@ public class DashViewActivity extends ActionBarActivity {
         listDataChildMap.put(listDataHeader.get(0), top250);
         listDataChildMap.put(listDataHeader.get(1), nowShowing);
         listDataChildMap.put(listDataHeader.get(2), comingSoon);
+
+		listAdapter = new ExpandableListAdapter(this, listDataHeader , listDataChildMap);
+		//Setting list adapter
+		expandableListView.setAdapter(listAdapter);
+
     }
 
     public void connectForecastIO()
@@ -112,14 +124,20 @@ public class DashViewActivity extends ActionBarActivity {
 
 
 
-        Callback cb = new Callback< WeatherInfo > (){
+        Callback cb = new Callback<WeatherInfo> (){
             @Override
             public void success(WeatherInfo weatherInfo, Response response) {
+
+				listDataHeader = new ArrayList<String>();
+				listDataChildMap = new HashMap<String, List<String>>();
+
                 System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.summary );
                 System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.cloudCover );
 
 
                 List<DataForDaily.Day> hours = weatherInfo.daily.dailyDataList;
+				List<String> test = new ArrayList<String>(  );
+
                 for(DataForDaily.Day d : hours)
                 {
 
@@ -128,7 +146,17 @@ public class DashViewActivity extends ActionBarActivity {
                     String vv = new SimpleDateFormat("MM dd, yyyy hh:mma").format(df);
 
                     System.out.println("hour " + vv + " summary " + d.summary);
+					test.add( d.summary );
                 }
+
+				listDataHeader.add( "Tester" );
+
+				listDataChildMap.put( listDataHeader.get( 0 ) , test );
+
+
+				listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader , listDataChildMap);
+				//Setting list adapter
+				expandableListView.setAdapter(listAdapter);
 
             }
 
@@ -148,7 +176,7 @@ public class DashViewActivity extends ActionBarActivity {
 	{
 		// Create a very simple REST adapter which points the GitHub API endpoint.
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setServer(GitHubClient.API_URL)
+				.setServer( GitHubClient.API_URL)
 				.build();
 
 		// Create an instance of our GitHub API interface.
@@ -156,7 +184,7 @@ public class DashViewActivity extends ActionBarActivity {
 
 
 
-		Callback callback = new  Callback<List< Contributor >>()
+		Callback callback = new  Callback<List<Contributor>>()
 		{
 			@Override
 			public void success( List<Contributor> contributors, Response response )

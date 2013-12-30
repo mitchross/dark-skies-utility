@@ -4,20 +4,20 @@ package com.vanillax.darkskiesutility;
  * Created by Mitch on 12/14/13.
  */
 public class Currently {
-    String summary;
-    double nearestStormDistance;
-    double nearestStormBearing;
-    double precipIntensity;
-    double precipProbability;
-    double temperature;
-    double dewPoint;
-    double humidity;
-    double windSpeed;
-    double windBearing;
-    double visibility;
-    double cloudCover;
-    double pressure;
-    double ozone;
+    public String summary;
+    public double nearestStormDistance;
+    public double nearestStormBearing;
+    public double precipIntensity;
+    public double precipProbability;
+    public double temperature;
+    public double dewPoint;
+    public double humidity;
+    public double windSpeed;
+    public double windBearing;
+    public double visibility;
+    public double cloudCover;
+    public double pressure;
+    public double ozone;
 
     public String getSummary() {
         return summary;
