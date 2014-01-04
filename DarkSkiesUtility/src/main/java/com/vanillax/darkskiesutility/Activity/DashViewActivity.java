@@ -20,9 +20,9 @@ import com.vanillax.darkskiesutility.GitHubClient;
 import com.vanillax.darkskiesutility.R;
 import com.vanillax.darkskiesutility.WeatherInfo;
 
-import java.text.SimpleDateFormat;
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -135,18 +135,19 @@ public class DashViewActivity extends ActionBarActivity {
                 System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.cloudCover );
 
 
-                List<DataForDaily.Day> hours = weatherInfo.daily.dailyDataList;
+                List<DataForDaily.Day> days = weatherInfo.daily.dailyDataList;
 				List<String> test = new ArrayList<String>(  );
 
-                for(DataForDaily.Day d : hours)
+                for(DataForDaily.Day d : days)
                 {
 
                     long dv = Long.valueOf(d.time)*1000;// its need to be in milisecond
-                    Date df = new java.util.Date(dv);
-                    String vv = new SimpleDateFormat("MM dd, yyyy hh:mma").format(df);
-
-                    System.out.println("hour " + vv + " summary " + d.summary);
-					test.add( d.summary );
+					DateTime day = new DateTime( dv );
+					String dayName = day.dayOfWeek().getName();
+					test.add( "day " + dayName + " "  + d.summary);
+					System.out.println( "HERE" + dayName );
+                   // System.out.println("hour " + vv + " summary " + d.summary);
+					//test.add( "day " + vv + d.summary );
                 }
 
 				listDataHeader.add( "Tester" );
@@ -165,7 +166,7 @@ public class DashViewActivity extends ActionBarActivity {
                 Log.e("error", "error message");
             }
         };
-        forecast.weatherData("42,-85", cb);
+        forecast.weatherData("42,-85", new forecastResponseHandler() );
 
 
     }
@@ -207,7 +208,7 @@ public class DashViewActivity extends ActionBarActivity {
 		};
 
 		// Fetch and print a list of the contributors to this library.
-		github.contributors("square", "retrofit" , callback);
+		github.contributors("square", "retrofit" , callback );
 
 	}
 
@@ -233,5 +234,52 @@ public class DashViewActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+	public class forecastResponseHandler implements Callback<WeatherInfo>
+	{
+
+		@Override
+		public void success( WeatherInfo weatherInfo, Response response )
+		{
+			listDataHeader = new ArrayList<String>();
+			listDataChildMap = new HashMap<String, List<String>>();
+
+			System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.summary );
+			System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.cloudCover );
+
+
+			List<DataForDaily.Day> hours = weatherInfo.daily.dailyDataList;
+			List<String> test = new ArrayList<String>(  );
+
+			for(DataForDaily.Day d : hours)
+			{
+				long dv = Long.valueOf(d.time)*1000;// its need to be in milisecond
+				DateTime day = new DateTime( dv );
+
+				String dayName = day.dayOfWeek().getAsText();
+				test.add( dayName + " Summary: "  + d.summary);
+				System.out.println( "HERE" + dayName );
+
+				//System.out.println("hour " + vv + " summary " + d.summary);
+				//test.add( "day" + vv + d.summary );
+			}
+
+			listDataHeader.add( "Tester" );
+
+			listDataChildMap.put( listDataHeader.get( 0 ) , test );
+
+
+			listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader , listDataChildMap);
+			//Setting list adapter
+			expandableListView.setAdapter(listAdapter);
+		}
+
+		@Override
+		public void failure( RetrofitError retrofitError )
+		{
+
+		}
+	}
 
 }
