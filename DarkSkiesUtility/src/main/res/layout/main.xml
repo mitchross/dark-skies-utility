@@ -3,39 +3,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+	<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Refresh"
+			android:id="@+id/refreshButton"
+			android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time "
-        android:id="@+id/time"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Summary "
-        android:id="@+id/summary"
-        android:layout_below="@+id/time"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nearest Storm Distance "
-        android:id="@+id/store_distance"
-        android:layout_below="@+id/summary"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ExpandableListView
+	<ExpandableListView
         android:id="@+id/lvExp"
-        android:layout_below="@id/store_distance"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_below="@+id/refreshButton" />
+
 
 
 

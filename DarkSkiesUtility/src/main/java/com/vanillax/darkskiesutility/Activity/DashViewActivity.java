@@ -1,11 +1,14 @@
 package com.vanillax.darkskiesutility.Activity;
 
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +25,7 @@ import com.vanillax.darkskiesutility.WeatherInfo;
 
 import org.joda.time.DateTime;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +43,8 @@ public class DashViewActivity extends ActionBarActivity {
 	ArrayList <String> cList;
 	ArrayAdapter arrayAdapter;
 
+	Button refresh;
+
     //ExpandableListViewExampleData
     //Custom List Adapter
     ExpandableListAdapter listAdapter;
@@ -53,14 +59,23 @@ public class DashViewActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.main);
 
+		refresh = (Button)findViewById( R.id.refreshButton );
+		refresh.setOnClickListener( new View.OnClickListener()
+		{
+			@Override
+			public void onClick( View view )
+			{
+				connectForecastIO();
+			}
+		} );
+
+
         //Get the listview
         expandableListView = (ExpandableListView) findViewById(R.id.lvExp);
 
         //preparing list data
        // prepareListData();
-
-
-
+		getLatLong();
 
 
 		cList = new ArrayList<String>(  );
@@ -68,6 +83,20 @@ public class DashViewActivity extends ActionBarActivity {
 		//connectService();
         connectForecastIO();
     }
+
+	private void getLatLong()
+	{
+		Geocoder test = new Geocoder( this );
+		try
+		{
+			test.getFromLocationName( "49525" , 1 );
+			System.out.println("TEST " + test.getFromLocationName( "49525", 1 ) );
+		} catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
+
+	}
 
     private void prepareListData()
     {
