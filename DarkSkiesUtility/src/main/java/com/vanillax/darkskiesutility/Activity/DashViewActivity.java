@@ -18,13 +18,10 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.vanillax.darkskiesutility.Contributor;
 import com.vanillax.darkskiesutility.DarkSkiesClient;
 import com.vanillax.darkskiesutility.DataForDaily;
 import com.vanillax.darkskiesutility.ExpandableListAdapter;
 import com.vanillax.darkskiesutility.Forecast;
-import com.vanillax.darkskiesutility.GitHub;
-import com.vanillax.darkskiesutility.GitHubClient;
 import com.vanillax.darkskiesutility.R;
 import com.vanillax.darkskiesutility.WeatherInfo;
 
@@ -103,10 +100,6 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
         //Get the listview
         expandableListView = (ExpandableListView) findViewById(R.id.lvExp);
 
-        //preparing list data
-       // prepareListData();
-
-
 
 		cList = new ArrayList<String>(  );
 
@@ -151,50 +144,6 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
 
 	}
 
-    private void prepareListData()
-    {
-        listDataHeader = new ArrayList<String>();
-        listDataChildMap = new HashMap<String, List<String>>();
-
-        //Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon...");
-
-        //Adding Child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
-
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
-
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
-
-        listDataChildMap.put(listDataHeader.get(0), top250);
-        listDataChildMap.put(listDataHeader.get(1), nowShowing);
-        listDataChildMap.put(listDataHeader.get(2), comingSoon);
-
-		listAdapter = new ExpandableListAdapter(this, listDataHeader , listDataChildMap);
-		//Setting list adapter
-		expandableListView.setAdapter(listAdapter);
-
-    }
 
     public void connectForecastIO()
     {
@@ -252,51 +201,6 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
 
 
     }
-
-
-
-	public  void connectService()
-	{
-		// Create a very simple REST adapter which points the GitHub API endpoint.
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setServer( GitHubClient.API_URL)
-				.build();
-
-		// Create an instance of our GitHub API interface.
-		GitHub github = restAdapter.create(GitHub.class);
-
-
-
-		Callback callback = new  Callback<List<Contributor>>()
-		{
-			@Override
-			public void success( List<Contributor> contributors, Response response )
-			{
-				for (Contributor contributor : contributors) {
-					Log.d( "mytag", contributor.myLogin + " (" + contributor.contributions + ")" );
-					testText.setText( contributor.myLogin );
-					cList.add( contributor.getMyLogin() );
-				}
-
-				arrayAdapter = new ArrayAdapter( getApplicationContext(), android.R.layout.simple_list_item_1 , cList );
-				listView.setAdapter( arrayAdapter );
-			}
-
-			@Override
-			public void failure( RetrofitError retrofitError )
-			{
-
-			}
-		};
-
-		// Fetch and print a list of the contributors to this library.
-		github.contributors("square", "retrofit" , callback );
-
-	}
-
-
-
-
 
 
     @Override
