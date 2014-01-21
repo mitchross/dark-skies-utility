@@ -1,6 +1,8 @@
-package com.vanillax.darkskiesutility.Activity;
+package com.vanillax.darkskiesutility.activity;
 
+import android.content.Intent;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -42,8 +44,15 @@ public class DashViewActivity extends ActionBarActivity {
 	ListView listView;
 	ArrayList <String> cList;
 	ArrayAdapter arrayAdapter;
+	Button refresh , gps;
 
-	Button refresh;
+	//location
+	private LocationManager locationManager;
+	private String provider;
+	private TextView latituteField;
+	private TextView longitudeField;
+
+
 
     //ExpandableListViewExampleData
     //Custom List Adapter
@@ -68,6 +77,18 @@ public class DashViewActivity extends ActionBarActivity {
 				connectForecastIO();
 			}
 		} );
+
+		gps = (Button)findViewById( R.id.gpsButton );
+		gps.setOnClickListener( new View.OnClickListener()
+		{
+			@Override
+			public void onClick( View view )
+			{
+				Intent i = new Intent( getApplicationContext(), ShowLocationTestActivity.class );
+				startActivity( i );
+			}
+		} );
+
 
 
         //Get the listview
@@ -240,6 +261,8 @@ public class DashViewActivity extends ActionBarActivity {
 		github.contributors("square", "retrofit" , callback );
 
 	}
+
+
 
 
 

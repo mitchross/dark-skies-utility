@@ -10,6 +10,14 @@
 			android:id="@+id/refreshButton"
 			android:layout_alignParentTop="true"
 			android:layout_centerHorizontal="true" />
+	<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="GPS"
+			android:id="@+id/gpsButton"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true" />
 
 
 	<ExpandableListView
