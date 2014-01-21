@@ -1,7 +1,10 @@
 package com.vanillax.darkskiesutility.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.location.Geocoder;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -27,7 +30,6 @@ import com.vanillax.darkskiesutility.WeatherInfo;
 
 import org.joda.time.DateTime;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +39,8 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DashViewActivity extends ActionBarActivity {
+public class DashViewActivity extends ActionBarActivity implements LocationListener
+{
 
     DarkSkiesClient client;
 	TextView testText;
@@ -51,6 +54,7 @@ public class DashViewActivity extends ActionBarActivity {
 	private String provider;
 	private TextView latituteField;
 	private TextView longitudeField;
+	public String latLong;
 
 
 
@@ -67,6 +71,9 @@ public class DashViewActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.main);
+
+		latituteField = (TextView) findViewById( R.id.lat );
+		longitudeField = (TextView) findViewById( R.id.longg);
 
 		refresh = (Button)findViewById( R.id.refreshButton );
 		refresh.setOnClickListener( new View.OnClickListener()
@@ -89,6 +96,8 @@ public class DashViewActivity extends ActionBarActivity {
 			}
 		} );
 
+		setUpLocationManager();
+
 
 
         //Get the listview
@@ -96,7 +105,7 @@ public class DashViewActivity extends ActionBarActivity {
 
         //preparing list data
        // prepareListData();
-		getLatLong();
+
 
 
 		cList = new ArrayList<String>(  );
@@ -105,16 +114,39 @@ public class DashViewActivity extends ActionBarActivity {
         connectForecastIO();
     }
 
-	private void getLatLong()
+	@Override
+	protected void onResume()
 	{
-		Geocoder test = new Geocoder( this );
-		try
-		{
-			test.getFromLocationName( "49525" , 1 );
-			System.out.println("TEST " + test.getFromLocationName( "49525", 1 ) );
-		} catch ( IOException e )
-		{
-			e.printStackTrace();
+		super.onResume();
+		locationManager.requestLocationUpdates(provider, 400, 1, this);
+
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		locationManager.removeUpdates(this);
+
+	}
+
+	private void setUpLocationManager()
+	{
+		// Get the location manager
+		locationManager = (LocationManager) getSystemService( Context.LOCATION_SERVICE);
+		// Define the criteria how to select the locatioin provider -> use
+		// default
+		Criteria criteria = new Criteria();
+		provider = locationManager.getBestProvider(criteria, false);
+		Location location = locationManager.getLastKnownLocation(provider);
+
+		// Initialize the location fields
+		if (location != null) {
+			System.out.println("Provider " + provider + " has been selected.");
+			onLocationChanged(location);
+		} else {
+			latituteField.setText("Location not available");
+			longitudeField.setText("Location not available");
 		}
 
 	}
@@ -286,6 +318,37 @@ public class DashViewActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+	@Override
+	public void onLocationChanged( Location location )
+	{
+		int lat = (int) (location.getLatitude());
+		int lng = (int) (location.getLongitude());
+		latituteField.setText(String.valueOf(lat));
+		longitudeField.setText(String.valueOf(lng));
+
+		latLong = lat + "," + lng;
+
+
+	}
+
+	@Override
+	public void onStatusChanged( String s, int i, Bundle bundle )
+	{
+
+	}
+
+	@Override
+	public void onProviderEnabled( String s )
+	{
+
+	}
+
+	@Override
+	public void onProviderDisabled( String s )
+	{
+
+	}
 
 
 	public class forecastResponseHandler implements Callback<WeatherInfo>
