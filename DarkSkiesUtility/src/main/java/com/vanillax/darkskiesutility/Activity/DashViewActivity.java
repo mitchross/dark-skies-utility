@@ -197,7 +197,7 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
                 Log.e("error", "error message");
             }
         };
-        forecast.weatherData("42,-85", new forecastResponseHandler() );
+        forecast.weatherData(latLong, new forecastResponseHandler() );
 
 
     }
