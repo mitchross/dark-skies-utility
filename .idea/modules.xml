@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Dark Skies.iml" filepath="$PROJECT_DIR$/Dark Skies.iml" />
       <module fileurl="file://$PROJECT_DIR$/DarkSkiesUtility/DarkSkiesUtility.iml" filepath="$PROJECT_DIR$/DarkSkiesUtility/DarkSkiesUtility.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dark-skies-utility.iml" filepath="$PROJECT_DIR$/dark-skies-utility.iml" />
     </modules>
   </component>
 </project>
