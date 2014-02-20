@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.vanillax.darkskiesutility.DarkSkiesClient;
 import com.vanillax.darkskiesutility.DataForDaily;
-import com.vanillax.darkskiesutility.ExpandableListAdapter;
 import com.vanillax.darkskiesutility.Forecast;
 import com.vanillax.darkskiesutility.R;
 import com.vanillax.darkskiesutility.WeatherInfo;
@@ -57,7 +56,6 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
 
     //ExpandableListViewExampleData
     //Custom List Adapter
-    ExpandableListAdapter listAdapter;
     ExpandableListView expandableListView;
     List<String> listDataHeader;
     HashMap<String , List<String>> listDataChildMap;
@@ -185,9 +183,9 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
 				listDataChildMap.put( listDataHeader.get( 0 ) , test );
 
 
-				listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader , listDataChildMap);
+				//listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader , listDataChildMap);
 				//Setting list adapter
-				expandableListView.setAdapter(listAdapter);
+				//expandableListView.setAdapter(listAdapter);
 
             }
 
@@ -288,9 +286,9 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
 			listDataChildMap.put( listDataHeader.get( 0 ) , test );
 
 
-			listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader , listDataChildMap);
+			//listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader , listDataChildMap);
 			//Setting list adapter
-			expandableListView.setAdapter(listAdapter);
+			//expandableListView.setAdapter(listAdapter);
 		}
 
 		@Override

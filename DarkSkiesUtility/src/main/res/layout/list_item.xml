@@ -4,28 +4,70 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="65dip"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/lblListItem"
+        android:id="@+id/summary"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="17dip"
         android:paddingTop="5dp"
-        android:text="Testerrrrr"
+        tools:text="Summary: "
         android:paddingBottom="5dp"
         android:textColor="@android:color/black"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+         />
     <TextView
-        android:id="@+id/lblListItemTemp"
+        android:id="@+id/temp_min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="17dip"
         android:paddingTop="5dp"
-        android:text="Testerrrrr"
+        tools:text="Temp Min"
         android:paddingBottom="5dp"
         android:textColor="@android:color/black"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
+        />
+    <TextView
+        android:id="@+id/temp_min_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        tools:text="Temp Min Time"
+        android:paddingBottom="5dp"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/temp_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        tools:text="Temp Max"
+        android:paddingBottom="5dp"
+        android:textColor="@android:color/black"
+        />
+    <TextView
+        android:id="@+id/temp_max_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        tools:text="Temp Max Time"
+        android:paddingBottom="5dp"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/wind_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        tools:text="Wind Speed"
+        android:paddingBottom="5dp"
+        android:textColor="@android:color/black"
+        />
 
 </LinearLayout>

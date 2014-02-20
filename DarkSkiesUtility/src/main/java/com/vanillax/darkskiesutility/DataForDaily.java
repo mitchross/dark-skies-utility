@@ -14,10 +14,16 @@ public class DataForDaily {
 
 public static class Day
     {
-       public String time;
+        public String time;
         public String summary;
         public String temperatureMin;
         public String temperatureMax;
+        @SerializedName("temperatureMaxTime")
+        public long maxTempTime;
+        @SerializedName("temperatureMinTime")
+        public long minTempTime;
+        public double windSpeed;
+
 
     }
 
