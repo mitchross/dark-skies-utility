@@ -16,6 +16,8 @@ public static class Day
     {
        public String time;
         public String summary;
+        public String temperatureMin;
+        public String temperatureMax;
 
     }
 

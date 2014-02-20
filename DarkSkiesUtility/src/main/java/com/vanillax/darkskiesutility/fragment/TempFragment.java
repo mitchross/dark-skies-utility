@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.vanillax.darkskiesutility.DarkSkiesClient;
 import com.vanillax.darkskiesutility.DataForDaily;
 import com.vanillax.darkskiesutility.ExpandableListAdapter;
+import com.vanillax.darkskiesutility.ExpandableListAdapterTwo;
 import com.vanillax.darkskiesutility.Forecast;
 import com.vanillax.darkskiesutility.R;
 import com.vanillax.darkskiesutility.WeatherInfo;
@@ -58,7 +59,7 @@ public class TempFragment extends Fragment  implements LocationListener{
     private TextView longitudeField;
     public String latLong;
 
-
+    protected ExpandableListAdapterTwo myListAdapter;
 
     //ExpandableListViewExampleData
     //Custom List Adapter
@@ -147,41 +148,47 @@ public class TempFragment extends Fragment  implements LocationListener{
         Forecast forecast = restAdapter.create(Forecast.class);
 
 
-
+        //NEVER GETS CALLED DAMMIT
         Callback cb = new Callback<WeatherInfo> (){
             @Override
             public void success(WeatherInfo weatherInfo, Response response) {
 
-                listDataHeader = new ArrayList<String>();
-                listDataChildMap = new HashMap<String, List<String>>();
+                  myListAdapter = new ExpandableListAdapterTwo(getActivity().getApplicationContext());
 
-                System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.summary );
-                System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.cloudCover );
+                  for( DataForDaily.Day someDay: weatherInfo.daily.dailyDataList)
+                  {
+                    myListAdapter.addDays( someDay );
 
+                  }
 
-                List<DataForDaily.Day> days = weatherInfo.daily.dailyDataList;
-                List<String> test = new ArrayList<String>(  );
-
-                for(DataForDaily.Day d : days)
-                {
-
-                    long dv = Long.valueOf(d.time)*1000;// its need to be in milisecond
-                    DateTime day = new DateTime( dv );
-                    String dayName = day.dayOfWeek().getName();
-                    test.add( "day " + dayName + " "  + d.summary);
-                    System.out.println( "HERE" + dayName );
-                    // System.out.println("hour " + vv + " summary " + d.summary);
-                    //test.add( "day " + vv + d.summary );
-                }
-
-                listDataHeader.add( "Tester" );
-
-                listDataChildMap.put( listDataHeader.get( 0 ) , test );
-
-
-                listAdapter = new ExpandableListAdapter(getActivity().getApplicationContext(), listDataHeader , listDataChildMap);
-                //Setting list adapter
-                expandableListView.setAdapter(listAdapter);
+//                listDataHeader = new ArrayList<String>();
+//                listDataChildMap = new HashMap<String, List<String>>();
+//
+//                System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.summary );
+//                System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.cloudCover );
+//
+//
+//                List<DataForDaily.Day> days = weatherInfo.daily.dailyDataList;
+//                List<String> dayInfo = new ArrayList<String>(  );
+//
+//                for(DataForDaily.Day d : days)
+//                {
+//
+//                    long dv = Long.valueOf(d.time)*1000;// its need to be in milisecond
+//                    DateTime day = new DateTime( dv );
+//                    String dayName = day.dayOfWeek().getName();
+//                    dayInfo.add( "day " + dayName + " "  + d.summary);
+//
+//                }
+//
+//                listDataHeader.add( "Daily" );
+//
+//                listDataChildMap.put( listDataHeader.get( 0 ) , dayInfo );
+//
+//
+//                listAdapter = new ExpandableListAdapter(getActivity().getApplicationContext(), listDataHeader , listDataChildMap);
+//                //Setting list adapter
+//                expandableListView.setAdapter(listAdapter);
 
             }
 
@@ -247,37 +254,47 @@ public class TempFragment extends Fragment  implements LocationListener{
         @Override
         public void success( WeatherInfo weatherInfo, Response response )
         {
-            listDataHeader = new ArrayList<String>();
-            listDataChildMap = new HashMap<String, List<String>>();
 
-            System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.summary );
-            System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.cloudCover );
+            myListAdapter = new ExpandableListAdapterTwo(getActivity().getApplicationContext());
 
-
-            List<DataForDaily.Day> hours = weatherInfo.daily.dailyDataList;
-            List<String> test = new ArrayList<String>(  );
-
-            for(DataForDaily.Day d : hours)
+            for( DataForDaily.Day someDay: weatherInfo.daily.dailyDataList)
             {
-                long dv = Long.valueOf(d.time)*1000;// its need to be in milisecond
-                DateTime day = new DateTime( dv );
+                myListAdapter.addDays( someDay );
 
-                String dayName = day.dayOfWeek().getAsText();
-                test.add( dayName + " Summary: "  + d.summary);
-                System.out.println( "HERE" + dayName );
-
-                //System.out.println("hour " + vv + " summary " + d.summary);
-                //test.add( "day" + vv + d.summary );
             }
+            expandableListView.setAdapter(myListAdapter);
 
-            listDataHeader.add( "Tester" );
-
-            listDataChildMap.put( listDataHeader.get( 0 ) , test );
-
-
-            listAdapter = new ExpandableListAdapter(getActivity().getApplicationContext(), listDataHeader , listDataChildMap);
-            //Setting list adapter
-            expandableListView.setAdapter(listAdapter);
+//            listDataHeader = new ArrayList<String>();
+//            listDataChildMap = new HashMap<String, List<String>>();
+//
+//            System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.summary );
+//            System.out.println( weatherInfo.timezone + " break2 " + weatherInfo.currently.cloudCover );
+//
+//
+//            List<DataForDaily.Day> hours = weatherInfo.daily.dailyDataList;
+//            List<String> test = new ArrayList<String>(  );
+//
+//            for(DataForDaily.Day d : hours)
+//            {
+//                long dv = Long.valueOf(d.time)*1000;// its need to be in milisecond
+//                DateTime day = new DateTime( dv );
+//
+//                String dayName = day.dayOfWeek().getAsText();
+//                test.add( dayName + " Summary: "  + d.summary);
+//                System.out.println( "HERE" + dayName );
+//
+//                //System.out.println("hour " + vv + " summary " + d.summary);
+//                //test.add( "day" + vv + d.summary );
+//            }
+//
+//            listDataHeader.add( "Tester" );
+//
+//            listDataChildMap.put( listDataHeader.get( 0 ) , test );
+//
+//
+//            listAdapter = new ExpandableListAdapter(getActivity().getApplicationContext(), listDataHeader , listDataChildMap);
+//            //Setting list adapter
+//            expandableListView.setAdapter(listAdapter);
         }
 
         @Override

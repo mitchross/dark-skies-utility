@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="55dip"
-    android:orientation="vertical" >
+    android:layout_height="65dip"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/lblListItem"
@@ -11,8 +13,19 @@
         android:layout_height="wrap_content"
         android:textSize="17dip"
         android:paddingTop="5dp"
+        android:text="Testerrrrr"
         android:paddingBottom="5dp"
         android:textColor="@android:color/black"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+    <TextView
+        android:id="@+id/lblListItemTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        android:text="Testerrrrr"
+        android:paddingBottom="5dp"
+        android:textColor="@android:color/black"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
 
 </LinearLayout>

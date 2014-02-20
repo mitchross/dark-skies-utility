@@ -177,8 +177,7 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
 					String dayName = day.dayOfWeek().getName();
 					test.add( "day " + dayName + " "  + d.summary);
 					System.out.println( "HERE" + dayName );
-                   // System.out.println("hour " + vv + " summary " + d.summary);
-					//test.add( "day " + vv + d.summary );
+
                 }
 
 				listDataHeader.add( "Tester" );
