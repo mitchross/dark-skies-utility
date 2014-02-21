@@ -28,9 +28,9 @@ public class ExpandableListAdapterTwo extends BaseExpandableListAdapter {
 
     private Context context;
 
-    protected HashMap<String , ArrayList<String> > individualDayTitleHash;
     protected ArrayList<String> individualDayTitles;
     protected HashMap<String , ArrayList<DataForDaily.Day> > individualDayInfoHash;
+    protected ArrayList<String> groupTitlesKey;
 
 
 
@@ -41,9 +41,9 @@ public class ExpandableListAdapterTwo extends BaseExpandableListAdapter {
     public ExpandableListAdapterTwo(Context context)
     {
         this.context = context;
-        individualDayTitleHash = new HashMap<String, ArrayList<String>>();
         individualDayTitles = new ArrayList<String>();
         individualDayInfoHash = new HashMap<String, ArrayList<DataForDaily.Day>>();
+        groupTitlesKey = new ArrayList<String>();
 
 
 
@@ -51,12 +51,12 @@ public class ExpandableListAdapterTwo extends BaseExpandableListAdapter {
 
     public void addDays ( DataForDaily.Day aDay)
     {
-        String key;
+        String key = aDay.time;
         //Titles aka groups aka days
         long dv = Long.valueOf(aDay.time)*1000;// its need to be in milisecond
         DateTime day = new DateTime( dv );
         String dayName = day.dayOfWeek().getAsText();
-        key = dayName;
+
 
 
         //Add the timestamped hour to the child hashmap
@@ -73,28 +73,10 @@ public class ExpandableListAdapterTwo extends BaseExpandableListAdapter {
         individualDayInfoHash.put(key, myDays);
 
 
-        individualDayTitles.add(key);
-        individualDayTitleHash.put(key, individualDayTitles);
+        individualDayTitles.add(dayName);
+        groupTitlesKey.add(key);
 
-    }
 
-    public void addDailyWeatherInfo ( DataForDaily.Day myDayToAdd)
-    {
-        String key = myDayToAdd.time;
-
-        individualDayTitles.add( key );
-        //Add the timestamped hour to the child hashmap
-        if( individualDayInfoHash.containsKey( key ) )
-        {
-            ArrayList<DataForDaily.Day> myDayInHash = individualDayInfoHash.get(key);
-            myDayInHash.add( myDayToAdd );
-        }
-        else
-        {
-            ArrayList<DataForDaily.Day> myList = new ArrayList();
-            myList.add( myDayToAdd );
-            individualDayInfoHash.put( key , myList);
-        }
     }
 
 
@@ -169,11 +151,9 @@ public class ExpandableListAdapterTwo extends BaseExpandableListAdapter {
 
 
 
-        final String key = individualDayTitles.get(groupPosition).toString();
+        final String key2 = groupTitlesKey.get(groupPosition);
 
-        if( individualDayInfoHash.containsKey(key ))
-        {
-            DataForDaily.Day  day = individualDayInfoHash.get(key).get(childPosition);
+            DataForDaily.Day  day = individualDayInfoHash.get(key2).get(childPosition);
             ChildViewHolder viewHolder;
 
             if(view != null )
@@ -195,24 +175,6 @@ public class ExpandableListAdapterTwo extends BaseExpandableListAdapter {
             viewHolder.tempMaxText.setText("Max Temp (F): " + day.temperatureMax);
             viewHolder.tempMaxTimeText.setText("Max Temp Time: " +String.valueOf( convertUnixTimeStampToClockTime(day.maxTempTime)));
             viewHolder.windSpeedText.setText(String.valueOf("Wind Speed(MPH): " + day.windSpeed));
-
-//            if(convertView == null)
-//            {
-//                LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                convertView = inflater.inflate(R.layout.list_item, null);
-//            }
-//
-//            TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
-//            txtListChild.setText(day.summary);
-//
-//            TextView txtListChildTemp = (TextView) convertView.findViewById(R.id.lblListItemTemp);
-//             txtListChildTemp.setText(day.temperatureMax);
-
-
-
-        }
-
-
 
         return view;
     }
