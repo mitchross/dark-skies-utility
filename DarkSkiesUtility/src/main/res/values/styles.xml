@@ -5,4 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.Darktheme.TextView" parent="Theme.Darktheme">
+        <item name="typeface">roboto_regular</item>
+    </style>
 </resources>

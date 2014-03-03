@@ -31,6 +31,7 @@ public class DarkSkiesClient
 	public static class DataForHourly{
 		int time;
 		String summary;
+
 	}
 
 	public interface Forecast{
