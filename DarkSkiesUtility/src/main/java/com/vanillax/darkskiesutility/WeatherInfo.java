@@ -8,7 +8,7 @@ public class WeatherInfo{
    public String timezone;
     //Objects in the JSON Response
    public Currently currently;
-   public Hourly hourly;
+   public DataForHourly hourly;
    public DataForDaily daily;
 
 

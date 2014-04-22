@@ -2,12 +2,12 @@ package com.vanillax.darkskiesutility.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +20,11 @@ import android.widget.TextView;
 
 import com.vanillax.darkskiesutility.DarkSkiesClient;
 import com.vanillax.darkskiesutility.DataForDaily;
-import com.vanillax.darkskiesutility.listviews.ExpandableListAdapterDaily;
 import com.vanillax.darkskiesutility.Forecast;
 import com.vanillax.darkskiesutility.R;
 import com.vanillax.darkskiesutility.WeatherInfo;
 import com.vanillax.darkskiesutility.activity.ShowLocationTestActivity;
+import com.vanillax.darkskiesutility.listviews.ExpandableListAdapterDaily;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +65,7 @@ public class DailyFragment extends Fragment  implements LocationListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_temp_tab , container , false);
+        View rootView = inflater.inflate(R.layout.fragment_temp_tab, container , false);
 
         latituteField = (TextView) rootView.findViewById(R.id.lat);
         longitudeField = (TextView) rootView.findViewById(R.id.longg);
@@ -91,7 +91,7 @@ public class DailyFragment extends Fragment  implements LocationListener{
             }
         } );
 
-        setUpLocationManager();
+        //setUpLocationManager();
 
 
 
@@ -102,43 +102,58 @@ public class DailyFragment extends Fragment  implements LocationListener{
         cList = new ArrayList<String>(  );
 
         //connectService();
-        connectForecastIO();
+		connectForecastIO();
 
 
         return rootView;
     }
 
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		locationManagerSetupTwo();
 
-    private void setUpLocationManager()
-    {
-        // Get the location manager
-        locationManager = (LocationManager) getActivity().getSystemService( Context.LOCATION_SERVICE);
-        // Define the criteria how to select the locatioin provider -> use
-        // default
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-        Location location = locationManager.getLastKnownLocation(provider);
 
-        // Initialize the location fields
-        if (location != null) {
-            System.out.println("Provider " + provider + " has been selected.");
-            onLocationChanged(location);
-        } else {
-            latituteField.setText("Location not available");
-            longitudeField.setText("Location not available");
-        }
+	}
 
-    }
+	private void locationManagerSetupTwo()
+	{
+
+		// Get the location manager
+		locationManager = (LocationManager) getActivity().getSystemService( Context.LOCATION_SERVICE);
+		LocationListener locationListener = new LocationListener() {
+			public void onLocationChanged(Location location) {
+				// Called when a new location is found by the network location provider.
+
+				int lat = (int) (location.getLatitude());
+				int lng = (int) (location.getLongitude());
+				latituteField.setText(String.valueOf(lat));
+				longitudeField.setText(String.valueOf(lng));
+
+				latLong = lat + "," + lng;
+			}
+
+			public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+			public void onProviderEnabled(String provider) {}
+
+			public void onProviderDisabled(String provider) {}
+		};
+
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+
+	}
 
 
     public void connectForecastIO()
     {
         //Create the simple Rest adapter which points to the Forecast.io endpoints
-        RestAdapter restAdapter = new RestAdapter.Builder().setServer(DarkSkiesClient.Dark_URL).build();
+        RestAdapter restAdapterTwo = new RestAdapter.Builder().setServer(DarkSkiesClient.Dark_URL).build();
 
         //Create a instance of our forecastIO api interface
-        Forecast forecast = restAdapter.create(Forecast.class);
-        forecast.weatherData(latLong, new forecastResponseHandler() );
+        Forecast forecastTwo = restAdapterTwo.create(Forecast.class);
+        forecastTwo.weatherData(latLong, new forecastResponseHandler() );
 
     }
 
@@ -209,7 +224,7 @@ public class DailyFragment extends Fragment  implements LocationListener{
         @Override
         public void failure( RetrofitError retrofitError )
         {
-
-        }
+			Log.d("Fail" , "fail");
+		}
     }
   }

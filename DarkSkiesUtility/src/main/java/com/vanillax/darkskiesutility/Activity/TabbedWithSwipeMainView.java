@@ -18,7 +18,7 @@ public class TabbedWithSwipeMainView extends FragmentActivity implements ActionB
     private TabsPagerAdapter myTabsPagerAdapter;
     private ActionBar actionBar;
 
-    private String[] tabs = { "Hours" , "Daily" , "Temp" };
+    private String[] tabs = { "Hours" , "Temp"  , "Daily" };
 
     @Override
     protected void onCreate (Bundle savedInstanceState)

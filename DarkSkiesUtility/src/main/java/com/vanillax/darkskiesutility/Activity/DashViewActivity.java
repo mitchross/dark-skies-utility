@@ -91,7 +91,7 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
 			}
 		} );
 
-		setUpLocationManager();
+
 
 
 
@@ -109,7 +109,9 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
 	protected void onResume()
 	{
 		super.onResume();
-		locationManager.requestLocationUpdates(provider, 400, 1, this);
+		//setUpLocationManager();
+		locationManagerSetupTwo();
+		//locationManager.requestLocationUpdates(provider, 400, 1, this);
 
 	}
 
@@ -118,6 +120,31 @@ public class DashViewActivity extends ActionBarActivity implements LocationListe
 	{
 		super.onPause();
 		locationManager.removeUpdates(this);
+
+	}
+
+	private void locationManagerSetupTwo()
+	{
+		LocationListener locationListener = new LocationListener() {
+			public void onLocationChanged(Location location) {
+				// Called when a new location is found by the network location provider.
+
+				int lat = (int) (location.getLatitude());
+				int lng = (int) (location.getLongitude());
+				latituteField.setText(String.valueOf(lat));
+				longitudeField.setText(String.valueOf(lng));
+
+				latLong = lat + "," + lng;
+			}
+
+			public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+			public void onProviderEnabled(String provider) {}
+
+			public void onProviderDisabled(String provider) {}
+		};
+
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
 	}
 

@@ -5,16 +5,15 @@
     android:layout_height="match_parent"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hours"/>
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView">
-        </ListView>
-
+	<ListView
+			android:id="@+id/hours_listview"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:headerDividersEnabled="true"
+			android:footerDividersEnabled="true"
+			android:listSelector="@android:color/transparent"
+			android:cacheColorHint="@android:color/transparent"
+			android:divider="@null"
+			android:dividerHeight="10dp" />
 
 </RelativeLayout>
