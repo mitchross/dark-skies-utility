@@ -18,6 +18,8 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.okhttp.HttpResponseCache;
+import com.squareup.okhttp.OkHttpClient;
 import com.vanillax.darkskiesutility.DarkSkiesClient;
 import com.vanillax.darkskiesutility.DataForDaily;
 import com.vanillax.darkskiesutility.Forecast;
@@ -26,13 +28,17 @@ import com.vanillax.darkskiesutility.WeatherInfo;
 import com.vanillax.darkskiesutility.activity.ShowLocationTestActivity;
 import com.vanillax.darkskiesutility.listviews.ExpandableListAdapterDaily;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 /**
@@ -148,8 +154,24 @@ public class DailyFragment extends Fragment  implements LocationListener{
 
     public void connectForecastIO()
     {
+		OkHttpClient okHttpClient = new OkHttpClient();
+
+		File cacheDir = new File( getActivity().getApplicationContext().getCacheDir(), UUID.randomUUID().toString() );
+
+				HttpResponseCache cache = null;
+				try {
+					cache = new HttpResponseCache(cacheDir, 8L * 1024 * 1024);
+				} catch (IOException e) {
+					Log.d( "mitch", "test fail" );
+				}
+
+		okHttpClient.setResponseCache( cache );
+
+
         //Create the simple Rest adapter which points to the Forecast.io endpoints
-        RestAdapter restAdapterTwo = new RestAdapter.Builder().setServer(DarkSkiesClient.Dark_URL).build();
+        RestAdapter restAdapterTwo = new RestAdapter.Builder()
+				.setClient(new OkClient( okHttpClient ) )
+				.setServer(DarkSkiesClient.Dark_URL).build();
 
         //Create a instance of our forecastIO api interface
         Forecast forecastTwo = restAdapterTwo.create(Forecast.class);
